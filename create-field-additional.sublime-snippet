@@ -1,0 +1,33 @@
+<snippet>
+    <content><![CDATA[
+
+-- ${1:Field_Name}
+-- ${2:Data_Type}
+-- ${3:Foreign_Table_Name}
+-- ${4:Foreign_Field_Name}
+
+
+IF NOT EXISTS (SELECT 1 FROM information_schema.COLUMNS C WHERE C.TABLE_CATALOG=@db AND C.TABLE_NAME=@table AND C.COLUMN_NAME='${1}')
+BEGIN
+  EXEC('ALTER TABLE '+@table+' ADD [${1}] ${2} ${0}')
+  PRINT 'Created '+QUOTENAME(@table)+'.${1} of type ${2} in '+@db+'.'
+
+  --
+  ---- Add FK to another table. Uncomment if needed.
+  --
+
+  -- EXEC('ALTER TABLE dbo.['+@table+'] WITH CHECK ADD CONSTRAINT FK_'+@table+'_${3} FOREIGN KEY(${1}) REFERENCES dbo.${3} (${4})')
+  -- EXEC('ALTER TABLE dbo.['+@table+'] CHECK CONSTRAINT FK_'+@table+'_${3}')
+  -- 
+  -- PRINT 'Added Foreign Key FK_'+@table+'_${3}.'
+
+END
+ELSE
+  PRINT QUOTENAME(@table)+'.${1} already exists in '+@db+'.'
+
+]]></content>
+    <tabTrigger>AdditionalField</tabTrigger>
+    <scope>source.sql</scope>
+    <description>Create Additional Field(s)</description>
+</snippet>
+

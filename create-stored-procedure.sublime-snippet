@@ -1,0 +1,45 @@
+<snippet>
+    <content><![CDATA[
+
+--
+---- Settings
+--
+
+-- Stored Procedure Name: ${1}
+-- Initial Parameter: ${2:,@Param int = 0}
+
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[${1}]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[${1}]
+GO
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[${1}]
+
+    @DomainID int
+    ${2}
+
+AS
+
+BEGIN
+
+    --
+    ---- Dataset Table 0
+    --
+
+    -- ${0:SELECT * FROM MyTable WHERE id = 1}
+
+END
+GO
+
+]]></content>
+    <tabTrigger>storedProcedure</tabTrigger>
+    <scope>source.sql</scope>
+    <description>Create Stored Procedure</description>
+</snippet>
+
