@@ -6,7 +6,7 @@
 --
 
 -- Stored Procedure Name: ${1}
--- Initial Parameter: ${2:,@Param int = 0}
+-- Initial Parameter: ${2:@Param int = 0}
 
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[${1}]') AND type in (N'P', N'PC'))
@@ -21,7 +21,6 @@ GO
 
 CREATE PROCEDURE [dbo].[${1}]
 
-    @DomainID int
     ${2}
 
 AS
