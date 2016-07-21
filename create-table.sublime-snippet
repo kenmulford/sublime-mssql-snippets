@@ -1,5 +1,16 @@
 <snippet>
     <content><![CDATA[
+--
+---- Settings
+--
+
+-- Database Name: ${1:DATABASE_NAME}
+-- Table Name: ${2:TABLE_NAME}
+-- Primary Key: ${3:PRIMARY_KEY_ID}
+
+USE [${1}]
+GO
+
 SET ANSI_NULLS ON
 GO
 
@@ -7,24 +18,24 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 --
----- Settings
---
-
--- Table Name: ${1:TABLE_NAME}
--- Primary Key: ${2:PRIMARY_KEY_ID}
-
-
---
 -- -- Create Table
 --
+IF NOT EXISTS (SELECT 1 FROM information_schema.TABLES T WHERE T.TABLE_CATALOG=QUOTENAME('${1}') AND T.TABLE_NAME=QUOTENAME('${2}'))
+BEGIN
 
-CREATE TABLE ${1} (
-  [${2}] int IDENTITY(1,1) NOT NULL,
- CONSTRAINT [PK_${1}] PRIMARY KEY CLUSTERED
+CREATE TABLE ${2} (
+  [${3}] int IDENTITY(1,1) NOT NULL,
+  ${0}
+ CONSTRAINT [PK_${2}] PRIMARY KEY CLUSTERED
 (
-  [${2}] ASC
+  [${3}] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
+
+  PRINT '${2} has been created.'
+END
+ELSE
+  PRINT '${2} already exists.'
 
 GO
 
